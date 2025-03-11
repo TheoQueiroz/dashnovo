@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulário de Entrega de Materiais</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <style>
+        body {
+            font-family: 'Titillium Web', sans-serif;
+        }
+        h1 {
+            font-family: 'Anton', sans-serif;
+        }
+        .fields-group {
+            display: none;
+        }
+        .visible {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="logo2.png" alt="Logo da Empresa">
+        <h1>Formulário de Materiais</h1>
+        <form id="deliveryForm" action="https://script.google.com/a/macros/fuzzr.com.br/s/AKfycbziEk8Rj1JgHISB4_igosM9aX6FquzJ3FM3EPQ5WuU6LoGxNPhMi41r8i9VpVqjeNkD/exec" method="post">
+            <label for="usuario">Usuário:</label>
+            <select id="usuario" name="usuario" readonly>
+                <option value="CLEITON">CLEITON</option>
+                <option value="EDUARDO">EDUARDO</option>
+                <option value="LUCAS">LUCAS</option>
+                <option value="GUSTAVINHO">GUSTAVINHO</option>
+                <option value="SALGA">SALGA</option>
+                <option value="THEO">THEO</option>
+                <option value="VITOR">VITOR</option>
+                <option value="RODS">RODS</option>
+                <option value="ANDY">ANDY</option>
+                <option value="CELINE">CELINE</option>
+                <option value="RAISSA">RAISSA</option>
+            </select>
+            <label for="cliente">Cliente:</label>
+            <select id="cliente" name="cliente" required>
+                <option value="">Selecione um cliente</option>
+                <option value="Casas Bahia">Casas Bahia</option>
+                <option value="Assai">Assaí</option>
+                <option value="Havan">Havan</option>
+                <option value="Geofast">Geofast</option>
+                <option value="Robo Assai">Robo Assai</option>
+                <option value="Robo Primavia">Robo Primavia</option>
+                <option value="Aceleraí">Aceleraí</option>
+            </select>
+
+            <!-- Campos padrão -->
+            <div class="fields-group" id="defaultFields">
+                <label for="mix">Mix:</label>
+                <input type="number" id="mix" name="mix" value="0" disabled>
+                
+                <label for="spot">Spot:</label>
+                <input type="number" id="spot" name="spot" value="0" disabled>
+                
+                <label for="cds">Carro de Som:</label>
+                <input type="number" id="cds" name="cds" value="0" disabled>
+                
+                <label for="loc">Loc:</label>
+                <input type="number" id="loc" name="loc" value="0" disabled>
+                
+                <label for="trilha">Trilha:</label>
+                <input type="number" id="trilha" name="trilha" value="0" disabled>
+            </div>
+
+            <!-- Campos específicos para Aceleraí -->
+            <div class="fields-group" id="aceleraiFields">
+                <label for="mix_acelerai">Mix:</label>
+                <input type="number" id="mix_acelerai" name="mix_acelerai" value="0" disabled>
+                
+                <label for="ajuste">Ajuste:</label>
+                <input type="number" id="ajuste" name="ajuste" value="0" disabled>
+
+                <label for="trilha_acelerai">Trilha:</label>
+                <input type="number" id="trilha_acelerai" name="trilha_acelerai" value="0" disabled>
+                
+                <label for="loc_rodrigo">Loc Rodrigo Ricardo:</label>
+                <input type="number" id="loc_rodrigo" name="loc_rodrigo" value="0" disabled>
+                
+                <label for="loc_bob">Loc Bob Floriano:</label>
+                <input type="number" id="loc_bob" name="loc_bob" value="0" disabled>
+                
+                <label for="loc_renato">Loc Renato Silva:</label>
+                <input type="number" id="loc_renato" name="loc_renato" value="0" disabled>
+                
+                <label for="loc_isa">Loc Isa Belly Sena:</label>
+                <input type="number" id="loc_isa" name="loc_isa" value="0" disabled>
+            </div>
+
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('cliente').addEventListener('change', function() {
+            const client = this.value;
+            const defaultFields = document.getElementById('defaultFields');
+            const aceleraiFields = document.getElementById('aceleraiFields');
+
+            // Reset all fields
+            [defaultFields, aceleraiFields].forEach(group => {
+                group.style.display = 'none';
+                group.querySelectorAll('input').forEach(input => input.disabled = true);
+            });
+
+            if (client === 'Aceleraí') {
+                aceleraiFields.style.display = 'block';
+                aceleraiFields.querySelectorAll('input').forEach(input => input.disabled = false);
+            } else if (client) {
+                defaultFields.style.display = 'block';
+                defaultFields.querySelectorAll('input').forEach(input => input.disabled = false);
+            }
+        });
+        // Mapeamento de e-mails para nomes
+    const users = {
+        "cleiton@fuzzr.com.br": "CLEITON",
+        "eduardo@fuzzr.com.br": "EDUARDO",
+        "higor@fuzzr.com.br": "HIGOR",
+        "lucas@fuzzr.com.br": "LUCAS",
+        "gustavo.domingues@fuzzr.com.br": "GUSTAVINHO",
+        "tony@fuzzr.com.br": "SALGA",
+        "theo@fuzzr.com.br": "THEO",
+        "vitor@fuzzr.com.br": "VITOR",
+        "rodrigo@fuzzr.com.br": "RODS",
+        "andy@fuzzr.com.br": "ANDY",
+        "raissa@fuzzr.com.br": "RAISSA",
+        "celine@fuzzr.com.br": "CELINE"
+    };
+
+    // Recupera o e-mail do localStorage
+    const emailLogado = localStorage.getItem('userEmail');
+
+    console.log("Email logado:", emailLogado);  // Verifica se o e-mail está sendo recuperado corretamente
+
+    // Função para preencher o campo usuário automaticamente
+    function preencherUsuario(email) {
+        if (email) {
+            const nomeUsuario = users[email.toLowerCase()] || "Usuário não encontrado";
+            document.getElementById('usuario').value = nomeUsuario;
+        } else {
+            window.location.href = 'login.html';  // Redireciona para o login se não houver e-mail armazenado
+        }
+    }
+
+    // Chama a função ao carregar a página
+    preencherUsuario(emailLogado);
+    </script>
+</body>
+</html>
