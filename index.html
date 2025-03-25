@@ -65,7 +65,8 @@
     <div class="container">
         <img src="logo2.png" alt="Logo da Empresa">
         <h1>Formulário de Materiais</h1>
-        <form id="deliveryForm" action="https://script.google.com/macros/s/AKfycbyfB4JaEx5x1HBV7B2SuiT2NhRLzl5vBoITHTs-PE2aypQuBmjtaFcCzoCQZNolSNuM/exec" method="post">
+        <form id="deliveryForm" action="https://script.google.com/macros/s/AKfycbxsd6pYv3gxrKgKS3y4uoPEgrrIOctIqGjhdOJziW4ut6jTCyQ_FmYE7xr0mZAmRe0-/exec" method="post">
+            <input type="hidden" id="data" name="data">
             <label for="usuario">Usuário:</label>
             <select id="usuario" name="usuario" readonly>
                 <option value="CLEITON">CLEITON</option>
@@ -80,6 +81,18 @@
                 <option value="CELINE">CELINE</option>
                 <option value="RAISSA">RAISSA</option>
             </select>
+            
+            <div id="retroativoGroup" class="retroativo-group">
+                <div class="retroativo-checkbox">
+                    <input type="checkbox" id="retroativo" name="retroativo">
+                    <label for="retroativo">Retroativo</label>
+                </div>
+                <div id="dateSelector" class="date-selector">
+                    <label for="dataRetroativa">Escolha a data:</label>
+                    <input type="date" id="dataRetroativa" name="dataRetroativa">
+                </div>
+            </div>
+            
             <label for="cliente">Cliente:</label>
             <select id="cliente" name="cliente" required>
                 <option value="">Selecione um cliente</option>
@@ -92,45 +105,140 @@
                 <option value="Aceleraí">Aceleraí</option>
             </select>
 
-            <div class="fields-group" id="defaultFields">
-                <label for="mix">Mix: <span class="tooltip">ℹ️<span class="tooltip-text">Cada mix gerada será registrada como uma entrega. Desde a criação de uma nova montagem até ajustes específicos, como a alteração de valores em ofertas. Responsável: PRODUTOR</span></span></label>
-                <input type="number" id="mix" name="mix" value="0" disabled>
+            <!-- Campos para Casas Bahia -->
+            <div class="fields-group" id="casasBahiaFields">
+                <h3>Materiais - Casas Bahia</h3>
+                <label for="mixCB">Mix: <span class="tooltip">ℹ️<span class="tooltip-text">Cada mix gerada será registrada como uma entrega. Desde a criação de uma nova montagem até ajustes específicos, como a alteração de valores em ofertas. Responsável: PRODUTOR</span></span></label>
+                <input type="number" id="mixCB" name="mixCB" value="0" min="0">
                 
-                <label for="spot">Spot: <span class="tooltip">ℹ️<span class="tooltip-text">Cada arquivo gerado para sua respectiva praça será contabilizado como uma entrega. Quando um material já finalizado for repetido em outros dias, essas repetições também serão incluídas na contagem total. Responsável: PRODUTOR</span></span></label>
-                <input type="number" id="spot" name="spot" value="0" disabled>
+                <label for="locCB">Loc: <span class="tooltip">ℹ️<span class="tooltip-text">Cada solicitação de locução recebida será contabilizada como uma nova locução. Independentemente se for um novo material ou alteração de material já existente. Responsável: TRAFEGO</span></span></label>
+                <input type="number" id="locCB" name="locCB" value="0" min="0">
                 
-                <label for="cds">Carro de Som: <span class="tooltip">ℹ️<span class="tooltip-text">Cada arquivo gerado para sua respectiva praça será contabilizado como uma entrega. Quando um material já finalizado for repetido em outros dias, essas repetições também serão incluídas na contagem total. Responsável: PRODUTOR</span></span></label>
-                <input type="number" id="cds" name="cds" value="0" disabled>
+                <label for="spotCB">Spot: <span class="tooltip">ℹ️<span class="tooltip-text">Cada arquivo gerado para sua respectiva praça será contabilizado como uma entrega. Quando um material já finalizado for repetido em outros dias, essas repetições também serão incluídas na contagem total. Responsável: PRODUTOR</span></span></label>
+                <input type="number" id="spotCB" name="spotCB" value="0" min="0">
                 
-                <label for="loc">Loc: <span class="tooltip">ℹ️<span class="tooltip-text">Cada solicitação de locução recebida será contabilizada como uma nova locução. Independentemente se for um novo material ou alteração de material já existente. Responsável: TRAFEGO</span></span></label>
-                <input type="number" id="loc" name="loc" value="0" disabled>
+                <label for="cdsCB">Carro de Som: <span class="tooltip">ℹ️<span class="tooltip-text">Cada arquivo gerado para sua respectiva praça será contabilizado como uma entrega. Quando um material já finalizado for repetido em outros dias, essas repetições também serão incluídas na contagem total. Responsável: PRODUTOR</span></span></label>
+                <input type="number" id="cdsCB" name="cdsCB" value="0" min="0">
                 
-                <label for="trilha">Trilha: <span class="tooltip">ℹ️<span class="tooltip-text">A pesquisa de trilha será contabilizada de acordo com a quantidade de material produzido. Independentemente do número de opções disponibilizadas (seja 3 ou mais), sempre será registrada como uma única entrega, correspondente ao material final. Responsável: PRODUTOR</span></span></label>
-                <input type="number" id="trilha" name="trilha" value="0" disabled>
+                <label for="trilhaCB">Trilha: <span class="tooltip">ℹ️<span class="tooltip-text">A pesquisa de trilha será contabilizada de acordo com a quantidade de material produzido. Independentemente do número de opções disponibilizadas (seja 3 ou mais), sempre será registrada como uma única entrega, correspondente ao material final. Responsável: PRODUTOR</span></span></label>
+                <input type="number" id="trilhaCB" name="trilhaCB" value="0" min="0">
+            </div>
+
+            <!-- Campos para Assaí -->
+            <div class="fields-group" id="assaiFields">
+                <h3>Materiais - Assaí</h3>
+                <label for="mixASSAI">Mix:</label>
+                <input type="number" id="mixASSAI" name="mixASSAI" value="0" min="0">
+                
+                <label for="locASSAI">Loc:</label>
+                <input type="number" id="locASSAI" name="locASSAI" value="0" min="0">
+                
+                <label for="spotASSAI">Spot:</label>
+                <input type="number" id="spotASSAI" name="spotASSAI" value="0" min="0">
+                
+                <label for="cdsASSAI">Carro de Som:</label>
+                <input type="number" id="cdsASSAI" name="cdsASSAI" value="0" min="0">
+                
+                <label for="trilhaASSAI">Trilha:</label>
+                <input type="number" id="trilhaASSAI" name="trilhaASSAI" value="0" min="0">
+            </div>
+
+            <!-- Campos para Havan -->
+            <div class="fields-group" id="havanFields">
+                <h3>Materiais - Havan</h3>
+                <label for="mixHAVAN">Mix:</label>
+                <input type="number" id="mixHAVAN" name="mixHAVAN" value="0" min="0">
+                
+                <label for="locHAVAN">Loc:</label>
+                <input type="number" id="locHAVAN" name="locHAVAN" value="0" min="0">
+                
+                <label for="spotHAVAN">Spot:</label>
+                <input type="number" id="spotHAVAN" name="spotHAVAN" value="0" min="0">
+                
+                <label for="cdsHAVAN">Carro de Som:</label>
+                <input type="number" id="cdsHAVAN" name="cdsHAVAN" value="0" min="0">
+                
+                <label for="trilhaHAVAN">Trilha:</label>
+                <input type="number" id="trilhaHAVAN" name="trilhaHAVAN" value="0" min="0">
+            </div>
+
+            <!-- Campos para Geofast -->
+            <div class="fields-group" id="geofastFields">
+                <h3>Materiais - Geofast</h3>
+                <label for="mixGEO">Mix:</label>
+                <input type="number" id="mixGEO" name="mixGEO" value="0" min="0">
+                
+                <label for="locGEO">Loc:</label>
+                <input type="number" id="locGEO" name="locGEO" value="0" min="0">
+                
+                <label for="spotGEO">Spot:</label>
+                <input type="number" id="spotGEO" name="spotGEO" value="0" min="0">
+                
+                <label for="cdsGEO">Carro de Som:</label>
+                <input type="number" id="cdsGEO" name="cdsGEO" value="0" min="0">
+                
+                <label for="trilhaGEO">Trilha:</label>
+                <input type="number" id="trilhaGEO" name="trilhaGEO" value="0" min="0">
+            </div>
+
+            <!-- Campos para Robo Assai -->
+            <div class="fields-group" id="roboAssaiFields">
+                <h3>Materiais - Robo Assai</h3>
+                <label for="mixROBOASSAI">Mix:</label>
+                <input type="number" id="mixROBOASSAI" name="mixROBOASSAI" value="0" min="0">
+                
+                <label for="locROBOASSAI">Loc:</label>
+                <input type="number" id="locROBOASSAI" name="locROBOASSAI" value="0" min="0">
+                
+                <label for="spotROBOASSAI">Spot:</label>
+                <input type="number" id="spotROBOASSAI" name="spotROBOASSAI" value="0" min="0">
+                
+                <label for="cdsROBOASSAI">Carro de Som:</label>
+                <input type="number" id="cdsROBOASSAI" name="cdsROBOASSAI" value="0" min="0">
+                
+                <label for="trilhaROBOASSAI">Trilha:</label>
+                <input type="number" id="trilhaROBOASSAI" name="trilhaROBOASSAI" value="0" min="0">
+            </div>
+
+            <!-- Campos para Robo Primavia -->
+            <div class="fields-group" id="roboPrimaviaFields">
+                <h3>Materiais - Robo Primavia</h3>
+                <label for="mixROBOPRIMA">Mix:</label>
+                <input type="number" id="mixROBOPRIMA" name="mixROBOPRIMA" value="0" min="0">
+                
+                <label for="locROBOPRIMA">Loc:</label>
+                <input type="number" id="locROBOPRIMA" name="locROBOPRIMA" value="0" min="0">
+                
+                <label for="spotROBOPRIMA">Spot:</label>
+                <input type="number" id="spotROBOPRIMA" name="spotROBOPRIMA" value="0" min="0">
+                
+                <label for="cdsROBOPRIMA">Carro de Som:</label>
+                <input type="number" id="cdsROBOPRIMA" name="cdsROBOPRIMA" value="0" min="0">
+                
+                <label for="trilhaROBOPRIMA">Trilha:</label>
+                <input type="number" id="trilhaROBOPRIMA" name="trilhaROBOPRIMA" value="0" min="0">
             </div>
 
             <!-- Campos específicos para Aceleraí -->
             <div class="fields-group" id="aceleraiFields">
-                <label for="mix_acelerai">Mix:</label>
-                <input type="number" id="mix_acelerai" name="mix_acelerai" value="0" disabled>
+                <h3>Materiais - Aceleraí</h3>
+                <label for="mixAC">Mix:</label>
+                <input type="number" id="mixAC" name="mixAC" value="0" min="0">
                 
-                <label for="ajuste">Ajuste:</label>
-                <input type="number" id="ajuste" name="ajuste" value="0" disabled>
-
-                <label for="trilha_acelerai">Trilha:</label>
-                <input type="number" id="trilha_acelerai" name="trilha_acelerai" value="0" disabled>
+                <label for="ajusteAC">Ajuste:</label>
+                <input type="number" id="ajusteAC" name="ajusteAC" value="0" min="0">
                 
                 <label for="loc_rodrigo">Loc Rodrigo Ricardo:</label>
-                <input type="number" id="loc_rodrigo" name="loc_rodrigo" value="0" disabled>
-                
-                <label for="loc_bob">Loc Bob Floriano:</label>
-                <input type="number" id="loc_bob" name="loc_bob" value="0" disabled>
+                <input type="number" id="loc_rodrigo" name="loc_rodrigo" value="0" min="0">
                 
                 <label for="loc_renato">Loc Renato Silva:</label>
-                <input type="number" id="loc_renato" name="loc_renato" value="0" disabled>
+                <input type="number" id="loc_renato" name="loc_renato" value="0" min="0">
+                
+                <label for="loc_bob">Loc Bob Floriano:</label>
+                <input type="number" id="loc_bob" name="loc_bob" value="0" min="0">
                 
                 <label for="loc_isa">Loc Isa Belly Sena:</label>
-                <input type="number" id="loc_isa" name="loc_isa" value="0" disabled>
+                <input type="number" id="loc_isa" name="loc_isa" value="0" min="0">
             </div>
 
             <button type="submit">Enviar</button>
@@ -138,58 +246,145 @@
     </div>
 
     <script>
+        // Atualizar a data automaticamente
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const formattedDate = today.toLocaleDateString('pt-BR'); // DD/MM/YYYY
+            document.getElementById('data').value = formattedDate;
+            
+            // Inicializar o estado do dateSelector
+            document.getElementById('dateSelector').style.display = 'none';
+        });
+        
+        // Exibir os campos corretos com base no cliente selecionado
         document.getElementById('cliente').addEventListener('change', function() {
             const client = this.value;
-            const defaultFields = document.getElementById('defaultFields');
-            const aceleraiFields = document.getElementById('aceleraiFields');
-
-            // Reset all fields
-            [defaultFields, aceleraiFields].forEach(group => {
+            
+            // Esconder todos os grupos de campos
+            const allFieldGroups = document.querySelectorAll('.fields-group');
+            allFieldGroups.forEach(group => {
                 group.style.display = 'none';
-                group.querySelectorAll('input').forEach(input => input.disabled = true);
             });
-
-            if (client === 'Aceleraí') {
-                aceleraiFields.style.display = 'block';
-                aceleraiFields.querySelectorAll('input').forEach(input => input.disabled = false);
-            } else if (client) {
-                defaultFields.style.display = 'block';
-                defaultFields.querySelectorAll('input').forEach(input => input.disabled = false);
+        
+            // Mostrar o grupo correspondente
+            if (client === 'Casas Bahia') {
+                document.getElementById('casasBahiaFields').style.display = 'block';
+            } else if (client === 'Assaí') {
+                document.getElementById('assaiFields').style.display = 'block';
+            } else if (client === 'Havan') {
+                document.getElementById('havanFields').style.display = 'block';
+            } else if (client === 'Geofast') {
+                document.getElementById('geofastFields').style.display = 'block';
+            } else if (client === 'Robo Assai') {
+                document.getElementById('roboAssaiFields').style.display = 'block';
+            } else if (client === 'Robo Primavia') {
+                document.getElementById('roboPrimaviaFields').style.display = 'block';
+            } else if (client === 'Aceleraí') {
+                document.getElementById('aceleraiFields').style.display = 'block';
             }
         });
+        
         // Mapeamento de e-mails para nomes
-    const users = {
-        "cleiton@fuzzr.com.br": "CLEITON",
-        "eduardo@fuzzr.com.br": "EDUARDO",
-        "higor@fuzzr.com.br": "HIGOR",
-        "lucas@fuzzr.com.br": "LUCAS",
-        "gustavo.domingues@fuzzr.com.br": "GUSTAVINHO",
-        "tony@fuzzr.com.br": "SALGA",
-        "theo@fuzzr.com.br": "THEO",
-        "vitor@fuzzr.com.br": "VITOR",
-        "rodrigo@fuzzr.com.br": "RODS",
-        "andy@fuzzr.com.br": "ANDY",
-        "raissa@fuzzr.com.br": "RAISSA",
-        "celine@fuzzr.com.br": "CELINE"
-    };
-
-    // Recupera o e-mail do localStorage
-    const emailLogado = localStorage.getItem('userEmail');
-
-    console.log("Email logado:", emailLogado);  // Verifica se o e-mail está sendo recuperado corretamente
-
-    // Função para preencher o campo usuário automaticamente
-    function preencherUsuario(email) {
-        if (email) {
-            const nomeUsuario = users[email.toLowerCase()] || "Usuário não encontrado";
-            document.getElementById('usuario').value = nomeUsuario;
-        } else {
-            window.location.href = 'login.html';  // Redireciona para o login se não houver e-mail armazenado
+        const users = {
+            "cleiton@fuzzr.com.br": "CLEITON",
+            "eduardo@fuzzr.com.br": "EDUARDO",
+            "higor@fuzzr.com.br": "HIGOR",
+            "lucas@fuzzr.com.br": "LUCAS",
+            "gustavo.domingues@fuzzr.com.br": "GUSTAVINHO",
+            "tony@fuzzr.com.br": "SALGA",
+            "theo@fuzzr.com.br": "THEO",
+            "vitor@fuzzr.com.br": "VITOR",
+            "rodrigo@fuzzr.com.br": "RODS",
+            "andy@fuzzr.com.br": "ANDY",
+            "raissa@fuzzr.com.br": "RAISSA",
+            "celine@fuzzr.com.br": "CELINE"
+        };
+        
+        // Recupera o e-mail do localStorage
+        const emailLogado = localStorage.getItem('userEmail');
+        
+        // Verifica permissão retroativa
+        function verificarPermissaoRetroativo(nomeUsuario) {
+            const usuariosPermitidos = ["CELINE", "RAISSA", "ANDY"];
+            const retroativoGroup = document.getElementById('retroativoGroup');
+            retroativoGroup.style.display = usuariosPermitidos.includes(nomeUsuario) ? 'block' : 'none';
         }
+        
+        // Preenche usuário automaticamente
+        function preencherUsuario(email) {
+            if (email) {
+                const nomeUsuario = users[email.toLowerCase()] || "Usuário não encontrado";
+                document.getElementById('usuario').value = nomeUsuario;
+                verificarPermissaoRetroativo(nomeUsuario);
+            } else {
+                window.location.href = 'login.html';
+            }
+        }
+        
+        preencherUsuario(emailLogado);
+        
+        // Controle do seletor de data retroativa
+        document.getElementById('retroativo').addEventListener('change', function() {
+            document.getElementById('dateSelector').style.display = this.checked ? 'block' : 'none';
+        });
+        
+        // Validação do formulário
+        document.getElementById('deliveryForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Processamento da data retroativa
+    const retroativoCheckbox = document.getElementById('retroativo');
+    const dataRetroativaInput = document.getElementById('dataRetroativa');
+
+    if (retroativoCheckbox.checked) {
+        if (!dataRetroativaInput.value) {
+            alert('Por favor, selecione uma data para o registro retroativo.');
+            return;
+        }
+        
+        const [year, month, day] = dataRetroativaInput.value.split('-');
+        document.getElementById('data').value = `${day}/${month}/${year}`;
+    } else {
+        const today = new Date();
+        document.getElementById('data').value = today.toLocaleDateString('pt-BR');
     }
 
-    // Chama a função ao carregar a página
-    preencherUsuario(emailLogado);
-    </script>
+    // Validação do cliente
+    const cliente = document.getElementById('cliente').value;
+    if (!cliente) {
+        alert('Por favor, selecione um cliente.');
+        return;
+    }
+
+    // Validação de campos numéricos (versão corrigida)
+    const visibleFieldsGroup = document.querySelector('.fields-group[style*="display: block"]');
+    let hasValue = false;
+
+    if (visibleFieldsGroup) {
+        const numericInputs = visibleFieldsGroup.querySelectorAll('input[type="number"]');
+        
+        // Verificação melhorada
+        hasValue = Array.from(numericInputs).some(input => {
+            const value = parseInt(input.value);
+            return !isNaN(value) && value > 0;
+        });
+    }
+
+    if (!hasValue) {
+        alert('Por favor, preencha pelo menos um campo de material com valor maior que zero.');
+        return;
+    }
+
+    // Debug: Mostrar dados no console antes do envio
+    console.log('Dados a serem enviados:', {
+        data: document.getElementById('data').value,
+        usuario: document.getElementById('usuario').value,
+        cliente: cliente,
+        ...Object.fromEntries(new FormData(this))
+    });
+
+    this.submit();
+});
+        </script>
 </body>
 </html>
