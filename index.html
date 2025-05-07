@@ -297,6 +297,7 @@
             "rodrigo@fuzzr.com.br": "RODS",
             "andy@fuzzr.com.br": "ANDY",
             "raissa@fuzzr.com.br": "RAISSA",
+            "isabela@fuzzr.com.br": "ISABELA"
             "celine@fuzzr.com.br": "CELINE"
         };
         
@@ -305,7 +306,7 @@
         
         // Verifica permissão retroativa
         function verificarPermissaoRetroativo(nomeUsuario) {
-            const usuariosPermitidos = ["CELINE", "RAISSA", "ANDY", "GUSTAVINHO", "LUCAS", "THEO"];
+            const usuariosPermitidos = ["CELINE", "RAISSA", "ANDY", "GUSTAVINHO", "LUCAS", "THEO", "ISABELA"];
             const retroativoGroup = document.getElementById('retroativoGroup');
             retroativoGroup.style.display = usuariosPermitidos.includes(nomeUsuario) ? 'block' : 'none';
         }
