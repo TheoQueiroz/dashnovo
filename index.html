@@ -59,6 +59,12 @@
             align-items: center;
             font-weight: bold;
         }
+
+        /* Estado desabilitado do botão de envio */
+        #submitBtn[disabled] {
+            opacity: .6;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 <body>
@@ -79,6 +85,7 @@
                 <option value="VITOR">VITOR</option>
                 <option value="RODS">RODS</option>
                 <option value="ANDY">ANDY</option>
+                <option value="CAROL">CAROL</option>
                 <option value="CELINE">CELINE</option>
                 <option value="ISABELA">ISABELA</option>
                 <option value="RAISSA">RAISSA</option>
@@ -246,12 +253,12 @@
                 <input type="number" id="loc_gil" name="loc_gil" value="0">
             </div>
 
-            <button type="submit">Enviar</button>
+            <button id="submitBtn" type="submit">Enviar</button>
         </form>
     </div>
 
     <script>
-        // Atualizar a data automaticamente
+        // Atualizar a data automaticamente ao carregar
         document.addEventListener('DOMContentLoaded', function() {
             const today = new Date();
             const formattedDate = today.toLocaleDateString('pt-BR'); // DD/MM/YYYY
@@ -304,7 +311,8 @@
             "andy@fuzzr.com.br": "ANDY",
             "raissa@fuzzr.com.br": "RAISSA",
             "isabela@fuzzr.com.br": "ISABELA",
-            "celine@fuzzr.com.br": "CELINE"
+            "celine@fuzzr.com.br": "CELINE",
+            "carol@fuzzr.com.br": "CAROL"
         };
         
         // Recupera o e-mail do localStorage
@@ -312,7 +320,7 @@
         
         // Verifica permissão retroativa
         function verificarPermissaoRetroativo(nomeUsuario) {
-            const usuariosPermitidos = ["CELINE", "RAISSA", "ANDY", "GUSTAVINHO", "LUCAS", "THEO", "ISABELA"];
+            const usuariosPermitidos = ["CELINE", "RAISSA", "ANDY", "GUSTAVINHO", "LUCAS", "CAROL", "THEO", "ISABELA"];
             const retroativoGroup = document.getElementById('retroativoGroup');
             retroativoGroup.style.display = usuariosPermitidos.includes(nomeUsuario) ? 'block' : 'none';
         }
@@ -334,64 +342,80 @@
         document.getElementById('retroativo').addEventListener('change', function() {
             document.getElementById('dateSelector').style.display = this.checked ? 'block' : 'none';
         });
-        
-        // Validação do formulário
-        document.getElementById('deliveryForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // Processamento da data retroativa
-    const retroativoCheckbox = document.getElementById('retroativo');
-    const dataRetroativaInput = document.getElementById('dataRetroativa');
 
-    if (retroativoCheckbox.checked) {
-        if (!dataRetroativaInput.value) {
-            alert('Por favor, selecione uma data para o registro retroativo.');
-            return;
-        }
-        
-        const [year, month, day] = dataRetroativaInput.value.split('-');
-        document.getElementById('data').value = `${day}/${month}/${year}`;
-    } else {
-        const today = new Date();
-        document.getElementById('data').value = today.toLocaleDateString('pt-BR');
-    }
+        // ===== Proteção contra reenvio =====
+        const form = document.getElementById('deliveryForm');
+        const submitBtn = document.getElementById('submitBtn');
+        let isSubmitting = false;
 
-    // Validação do cliente
-    const cliente = document.getElementById('cliente').value;
-    if (!cliente) {
-        alert('Por favor, selecione um cliente.');
-        return;
-    }
+        // Validação + trava de envio
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
 
-    // Validação de campos numéricos (versão corrigida)
-    const visibleFieldsGroup = document.querySelector('.fields-group[style*="display: block"]');
-    let hasValue = false;
+            // Evita duplo clique/Enter
+            if (isSubmitting) return;
 
-    if (visibleFieldsGroup) {
-        const numericInputs = visibleFieldsGroup.querySelectorAll('input[type="number"]');
-        
-        // Verificação melhorada
-        hasValue = Array.from(numericInputs).some(input => {
-            const value = parseInt(input.value);
-            return !isNaN(value) && value > 0;
+            // Processamento da data retroativa
+            const retroativoCheckbox = document.getElementById('retroativo');
+            const dataRetroativaInput = document.getElementById('dataRetroativa');
+
+            if (retroativoCheckbox.checked) {
+                if (!dataRetroativaInput.value) {
+                    alert('Por favor, selecione uma data para o registro retroativo.');
+                    return;
+                }
+                
+                const [year, month, day] = dataRetroativaInput.value.split('-');
+                document.getElementById('data').value = `${day}/${month}/${year}`;
+            } else {
+                const today = new Date();
+                document.getElementById('data').value = today.toLocaleDateString('pt-BR');
+            }
+
+            // Validação do cliente
+            const cliente = document.getElementById('cliente').value;
+            if (!cliente) {
+                alert('Por favor, selecione um cliente.');
+                return;
+            }
+
+            // Validação de campos numéricos (grupo visível)
+            const visibleFieldsGroup = document.querySelector('.fields-group[style*="display: block"]');
+            let hasValue = false;
+
+            if (visibleFieldsGroup) {
+                const numericInputs = visibleFieldsGroup.querySelectorAll('input[type="number"]');
+                hasValue = Array.from(numericInputs).some(input => {
+                    const value = parseInt(input.value, 10);
+                    return !isNaN(value) && value > 0;
+                });
+            }
+
+            if (!hasValue) {
+                alert('Por favor, preencha pelo menos um campo de material com valor maior que zero.');
+                return;
+            }
+
+            // Trava o envio
+            isSubmitting = true;
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Enviando...';
+
+            // Debug: Mostrar dados no console antes do envio
+            console.log('Dados a serem enviados:', {
+                data: document.getElementById('data').value,
+                usuario: document.getElementById('usuario').value,
+                cliente: cliente,
+                ...Object.fromEntries(new FormData(this))
+            });
+
+            // Envia de fato (a navegação para o Apps Script acontece e a página sai)
+            // Se em algum cenário você ficar na mesma página (ex.: fetch/AJAX com resposta de erro),
+            // reabilite o botão e limpe o lock:
+            // submitBtn.disabled = false; submitBtn.textContent = originalText; isSubmitting = false;
+            this.submit();
         });
-    }
-
-    if (!hasValue) {
-        alert('Por favor, preencha pelo menos um campo de material com valor maior que zero.');
-        return;
-    }
-
-    // Debug: Mostrar dados no console antes do envio
-    console.log('Dados a serem enviados:', {
-        data: document.getElementById('data').value,
-        usuario: document.getElementById('usuario').value,
-        cliente: cliente,
-        ...Object.fromEntries(new FormData(this))
-    });
-
-    this.submit();
-});
-        </script>
+    </script>
 </body>
 </html>
