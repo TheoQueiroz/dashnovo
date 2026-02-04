@@ -71,7 +71,7 @@
     <div class="container">
         <img src="logo2.png" alt="Logo da Empresa">
         <h1>Formulário de Materiais</h1>
-        <form id="deliveryForm" action="https://script.google.com/macros/s/AKfycbwMnCvNU359Nv8NqyCefrpqseXb3CtINDU6mB62zQ5rig5L_E-mfaS7bo_M99yW5lwV/exec" method="post">
+        <form id="deliveryForm" action="https://script.google.com/macros/s/AKfycbwZB2NsKGA2qgHXi-uEjx7zrc6cwnke6b9L3cYXYTtsAT-fcVLag5qxl9pJ__jwZsd2/exec" method="post">
             <input type="hidden" id="data" name="data">
             <label for="usuario">Usuário:</label>
             <select id="usuario" name="usuario" readonly>
@@ -106,7 +106,6 @@
             <select id="cliente" name="cliente" required>
                 <option value="">Selecione um cliente</option>
                 <option value="Casas Bahia">Casas Bahia</option>
-                <option value="Ponto">Ponto</option>
                 <option value="Assaí">Assaí</option>
                 <option value="Havan">Havan</option>
                 <option value="Geofast">Geofast</option>
@@ -137,28 +136,7 @@
                 <input type="number" id="trilhaCB" name="trilhaCB" value="0">
             </div>
 
-                        <!-- Campos para Ponto -->
-            <div class="fields-group" id="pontoFields">
-               <h3>Materiais - Ponto</h3>
-               <label for="mixPONTO">Mix:</label>
-               <input type="number" id="mixPONTO" name="mixPONTO" value="0">
-            
-               <label for="locPONTO">Loc:</label>
-               <input type="number" id="locPONTO" name="locPONTO" value="0">
-            
-               <label for="spotPONTO">Spot:</label>
-               <input type="number" id="spotPONTO" name="spotPONTO" value="0">
-            
-               <label for="cdsPONTO">Carro de Som:</label>
-               <input type="number" id="cdsPONTO" name="cdsPONTO" value="0">
-            
-               <label for="trilhaPONTO">Trilha:</label>
-               <input type="number" id="trilhaPONTO" name="trilhaPONTO" value="0">
-            </div>
-
-
             <!-- Campos para Assaí -->
-        
             <div class="fields-group" id="assaiFields">
                 <h3>Materiais - Assaí</h3>
                 <label for="mixASSAI">Mix:</label>
@@ -313,8 +291,6 @@
                 document.getElementById('roboAssaiFields').style.display = 'block';
             } else if (client === 'Robo Primavia') {
                 document.getElementById('roboPrimaviaFields').style.display = 'block';
-            } else if (client === 'Ponto') {
-                document.getElementById('pontoFields').style.display = 'block';
             } else if (client === 'Aceleraí') {
                 document.getElementById('aceleraiFields').style.display = 'block';
             }
