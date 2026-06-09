@@ -92,6 +92,7 @@
                 <option value="ISABELA">ISABELA</option>
                 <option value="RAISSA">RAISSA</option>
                 <option value="HENRIQUE">HENRIQUE</option>
+                <option value="ANA">ANA</option>
             </select>
             
             <div id="retroativoGroup" class="retroativo-group">
@@ -337,6 +338,7 @@
             "isabela@fuzzr.com.br": "ISABELA",
             "celine@fuzzr.com.br": "CELINE",
             "carol@fuzzr.com.br": "CAROL",
+            "anapaula@fuzzr.com.br": "ANA",
             "henrique@fuzzr.com.br": "HENRIQUE"
         };
         
@@ -345,7 +347,7 @@
         
         // Verifica permissão retroativa
         function verificarPermissaoRetroativo(nomeUsuario) {
-            const usuariosPermitidos = ["CELINE", "RAISSA", "ANDY", "GUSTAVINHO", "LUCAS", "CAROL", "THEO", "ISABELA"];
+            const usuariosPermitidos = ["CELINE", "RAISSA", "ANDY", "GUSTAVINHO", "LUCAS", "CAROL", "THEO", "ISABELA", "ANA"];
             const retroativoGroup = document.getElementById('retroativoGroup');
             retroativoGroup.style.display = usuariosPermitidos.includes(nomeUsuario) ? 'block' : 'none';
         }
